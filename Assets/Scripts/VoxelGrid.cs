@@ -35,7 +35,7 @@ public class VoxelGrid : MonoBehaviour {
     private void LoadVoxels() {
         for (int y = 1; y < Dimensions.y; y+=4) {
             string num = y.ToString("D4");
-            Texture2D slice = LoadPNG("C:/Users/n/Documents/GitHub/AustinMan-Voxel/Assets/Dataset/AustinMan-4x4x4/AustinMan-v2_6-4x4x4_pngs/" + num + ".png");
+            Texture2D slice = LoadPNG(Application.dataPath + "/Dataset/AustinMan-4x4x4/AustinMan-v2_6-4x4x4_pngs/" + num + ".png");
             for (int x = 0; x < Dimensions.x; x++) {
                 for (int z = 0; z < Dimensions.z; z++) {
                     Color pixelColor = slice.GetPixel(x, z);

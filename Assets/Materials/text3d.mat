@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: text3d
+  m_Name: Text3D
   m_Shader: {fileID: 4800000, guid: d5d15565a5ac66f49b0aa163b3fb0a62, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
