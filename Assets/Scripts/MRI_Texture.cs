@@ -29,6 +29,7 @@ public class MRI_Texture : MonoBehaviour
 
     public List<GameObject> bodyColliderObjects;
     List<BodyCollider> bodyColliders;
+    List<Collider> originalBodyColliders;
 
     Texture3D tex3d;
 
@@ -56,12 +57,18 @@ public class MRI_Texture : MonoBehaviour
         createTex3D();
 
         bodyColliders = new List<BodyCollider>(bodyColliderObjects.Count);
-        foreach(GameObject o in bodyColliderObjects) {
+        foreach (GameObject o in bodyColliderObjects) {
             Vector3 pos = new Vector3(o.transform.position.x, o.transform.position.y, o.transform.position.z);
             Quaternion rot = new Quaternion(o.transform.rotation.x, o.transform.rotation.y, o.transform.rotation.z, o.transform.rotation.w);
             Collider coll = o.GetComponent<Collider>();
             BodyCollider bc = new BodyCollider(coll, pos, rot, o);
             bodyColliders.Add(bc);
+        }
+        originalBodyColliders = new List<Collider>(bodyColliderObjects.Count);
+        foreach (GameObject o in bodyColliderObjects) {
+            GameObject go = Instantiate(o, o.transform.position, o.transform.rotation);
+            Collider c = go.GetComponent<Collider>();
+            originalBodyColliders.Add(c);
         }
     }
 
@@ -105,9 +112,17 @@ public class MRI_Texture : MonoBehaviour
         for (int i = 0; i < planeUvs.Count; i++) {
             planeUvs[i] = Vector3.Scale(plane.transform.TransformPoint(planeVerts[i]), scaleUV) - offsetUV;
 
+            Vector3 point = plane.transform.TransformPoint(planeVerts[i]);
+
+            foreach (Collider c in originalBodyColliders) {
+                if (c.ClosestPoint(point).Equals(point)) {
+                    planeUvs[i] = new Vector3(10, 10, 10);
+                }
+            }
+
             foreach (BodyCollider bc in bodyColliders) {
-                if (bc.collider.ClosestPoint(plane.transform.TransformPoint(planeVerts[i])).Equals(plane.transform.TransformPoint(planeVerts[i]))) {
-                    Vector3 point = plane.transform.TransformPoint(planeVerts[i]);
+                if (bc.collider.ClosestPoint(point).Equals(point)) {
+                    
                     Vector3 translation = bc.originalPos - bc.gameObject.transform.position;
                     Quaternion rotation = bc.originalRot * Quaternion.Inverse(bc.gameObject.transform.rotation);
 
