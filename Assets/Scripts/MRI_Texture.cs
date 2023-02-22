@@ -114,13 +114,13 @@ public class MRI_Texture : MonoBehaviour
 
             Vector3 point = plane.transform.TransformPoint(planeVerts[i]);
 
-            foreach (Collider c in originalBodyColliders) {
+            foreach (Collider c in originalBodyColliders) { //hide original regions (if the model rig is changed)
                 if (c.ClosestPoint(point).Equals(point)) {
                     planeUvs[i] = new Vector3(10, 10, 10);
                 }
             }
 
-            foreach (BodyCollider bc in bodyColliders) {
+            foreach (BodyCollider bc in bodyColliders) {  //apply rig deformation to uvw coordinates
                 if (bc.collider.ClosestPoint(point).Equals(point)) {
                     
                     Vector3 translation = bc.originalPos - bc.gameObject.transform.position;

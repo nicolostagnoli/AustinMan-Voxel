@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 using System.IO;
 
 public class MRI_Texture_MeshCollider : MonoBehaviour
@@ -13,13 +14,12 @@ public class MRI_Texture_MeshCollider : MonoBehaviour
     Material screenMaterial;
     MeshFilter screenMf;
 
-    Texture3D tex3d;
+    public List<GameObject> bones;
+    List<Vector3> originalBonesPosition;
+    List<Quaternion> originalBonesRotation;
+    List<MeshCollider> colliders;
 
-    public GameObject human;
-    SkinnedMeshRenderer smr;
-    MeshCollider meshCollider;
-    Mesh originalMesh;
-    Mesh mesh;
+    Texture3D tex3d;
 
     public Vector3 scaleUV;
     public Vector3 offsetUV;
@@ -44,23 +44,12 @@ public class MRI_Texture_MeshCollider : MonoBehaviour
 
         createTex3D();
 
-        /*
-        //Create mesh for the mesh collider
-        smr = human.GetComponent<SkinnedMeshRenderer>();
-        DestroyImmediate(human.GetComponent<MeshCollider>());
-        meshCollider = human.AddComponent<MeshCollider>();
-        originalMesh = new Mesh();
-        smr.BakeMesh(originalMesh);
-        List<Vector3> vert = new List<Vector3>(originalMesh.vertices);
-        for (int i = 0; i < vert.Count; i++) {
-            Vector3 v = vert[i];
-            v.x *= 0.75f;
-            vert[i] = v;
+        originalBonesPosition = new List<Vector3>(bones.Count);
+        originalBonesRotation = new List<Quaternion>(bones.Count);
+        foreach (GameObject go in bones) {
+            originalBonesPosition.Add(new Vector3(go.transform.position.x, go.transform.position.y, go.transform.position.z));
+            originalBonesRotation.Add(new Quaternion(go.transform.rotation.x, go.transform.rotation.y, go.transform.rotation.z, go.transform.rotation.w));
         }
-        originalMesh.SetVertices(vert);
-        meshCollider.sharedMesh = originalMesh;
-        mesh = originalMesh;
-        */
     }
 
     void createTex3D() {
@@ -90,24 +79,10 @@ public class MRI_Texture_MeshCollider : MonoBehaviour
     // Update is called once per frame
     void Update() {
         if (plane.transform.hasChanged) {
+            GenerateColliders();
             calculate3dUVW();
             plane.transform.hasChanged = false;
         }
-
-        /*
-        DestroyImmediate(human.GetComponent<MeshCollider>());
-        meshCollider = human.AddComponent<MeshCollider>();
-        mesh = new Mesh();
-        smr.BakeMesh(mesh);
-        List<Vector3> vert = new List<Vector3>(mesh.vertices);
-        for(int i = 0; i < vert.Count; i++) {
-            Vector3 v = vert[i];
-            v.x *= 0.75f;
-            vert[i] = v;
-        }
-        mesh.SetVertices(vert);
-        meshCollider.sharedMesh = mesh;
-        */
     }
 
     void calculate3dUVW() {
@@ -116,23 +91,32 @@ public class MRI_Texture_MeshCollider : MonoBehaviour
         List<Vector3> planeVerts = new List<Vector3>(planeMf.mesh.vertices);
 
         for (int i = 0; i < planeUvs.Count; i++) {
-            Vector3 point = plane.transform.TransformPoint(planeVerts[i]);
+            Vector3 point = plane.transform.TransformPoint(planeVerts[i]);  //each plane point in world coordinates
 
-            /*
-            //Find index of vertex intersecting between plane and mesh collider
-            Vector3 meshPoint = human.transform.InverseTransformPoint(point);
-            int idx = new List<Vector3>(mesh.vertices).IndexOf(meshPoint);
+            MeshCollider coll = null;
+            foreach(MeshCollider mc in colliders) {
+                if (mc.ClosestPoint(point).Equals(point)) {
+                    coll = mc;
+                    break;
+                }
+            }
 
-            if (idx != -1) {
-                Vector3 originalPosition = originalMesh.vertices[idx];
+            //if point does not intersect any collier, set color to black
+            //(setting uv far away from 0-1 range)
+            if(coll == null) {
+                point.x = 99999.0f;
+            }
+            else {
+                int idx = colliders.IndexOf(coll);
+                Vector3 origPos = originalBonesPosition[idx];
+                Quaternion origRot = originalBonesRotation[idx];
 
-                Vector3 translation = originalPosition - point;
-                //Quaternion rotation = bc.originalRot * Quaternion.Inverse(bc.gameObject.transform.rotation);
-                //point = RotatePointAroundPivot(point, bc.gameObject.transform.position, rotation.eulerAngles);
+                Vector3 translation = origPos - bones[idx].transform.position;
+                Quaternion rotation = origRot * Quaternion.Inverse(bones[idx].transform.rotation);
 
+                point = RotatePointAroundPivot(point, bones[idx].transform.position, rotation.eulerAngles);
                 point += translation;
             }
-            */
 
             planeUvs[i] = Vector3.Scale(point, scaleUV) - offsetUV;
 
@@ -158,5 +142,12 @@ public class MRI_Texture_MeshCollider : MonoBehaviour
         tex.filterMode = FilterMode.Point;
         tex.LoadImage(fileData); //..this will auto-resize the texture dimensions.
         return tex;
+    }
+
+    private void GenerateColliders() {
+        colliders = new List<MeshCollider>(bones.Count);
+        foreach (GameObject go in bones) {
+            colliders.Add(go.GetComponent<MeshCollider>());
+        }
     }
 }

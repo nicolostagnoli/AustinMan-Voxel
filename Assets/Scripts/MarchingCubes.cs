@@ -37,8 +37,8 @@ public class MarchingCubes : MonoBehaviour
 		pointValues = new float[gridSize.x, gridSize.y, gridSize.z];
 
 		for (int y = 0; y < gridSize.y; y++) {
-			string num = (y*2 + 1).ToString("D4");
-			Texture2D slice = LoadPNG(Application.dataPath + "/Dataset/AustinMan-2x2x2/AustinMan-v2_6-2x2x2_pngs/" + num + ".png");
+			string num = (y*4 + 1).ToString("D4");
+			Texture2D slice = LoadPNG(Application.dataPath + "/Dataset/AustinMan-4x4x4/AustinMan-v2_6-4x4x4_pngs/" + num + ".png");
 			for (int x = 0; x < gridSize.x; x++) {
 				for (int z = 0; z < gridSize.z; z++) {
 					pointValues[x, y, z] = 1.0f - slice.GetPixel(x, z).grayscale;
