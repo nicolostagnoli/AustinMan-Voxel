@@ -14,7 +14,7 @@ public class MRI_Texture_MeshCollider : MonoBehaviour
     Material screenMaterial;
     MeshFilter screenMf;
 
-    public List<GameObject> bones;
+    List<GameObject> bones;
     List<Vector3> originalBonesPosition;
     List<Quaternion> originalBonesRotation;
     List<MeshCollider> colliders;
@@ -43,6 +43,8 @@ public class MRI_Texture_MeshCollider : MonoBehaviour
         tex3d.filterMode = FilterMode.Trilinear;
 
         createTex3D();
+
+        bones = new List<GameObject>(GameObject.FindGameObjectsWithTag("Bone"));
 
         originalBonesPosition = new List<Vector3>(bones.Count);
         originalBonesRotation = new List<Quaternion>(bones.Count);
