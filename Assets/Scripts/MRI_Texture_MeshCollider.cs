@@ -40,7 +40,7 @@ public class MRI_Texture_MeshCollider : MonoBehaviour
 
         tex3d = new Texture3D(width, height, depth, TextureFormat.RGBA32, false);
         tex3d.wrapMode = TextureWrapMode.Clamp;
-        tex3d.filterMode = FilterMode.Trilinear;
+        tex3d.filterMode = FilterMode.Point;
 
         createTex3D();
 
