@@ -87,7 +87,7 @@ public class MRI_Texture_MeshCollider : MonoBehaviour
         }
     }
 
-    void calculate3dUVW() {
+    public void calculate3dUVW() {
         List<Vector3> planeUvs = new List<Vector3>(planeMf.mesh.vertices);
         List<Vector3> screenUvs = new List<Vector3>(planeMf.mesh.vertices);
         List<Vector3> planeVerts = new List<Vector3>(planeMf.mesh.vertices);
@@ -116,8 +116,17 @@ public class MRI_Texture_MeshCollider : MonoBehaviour
                 Vector3 translation = origPos - bones[idx].transform.position;
                 Quaternion rotation = origRot * Quaternion.Inverse(bones[idx].transform.rotation);
 
+                Vector3 scaleInverse = coll.gameObject.transform.localScale;
+                scaleInverse.x = 1 / scaleInverse.x;
+                scaleInverse.y = 1 / scaleInverse.y;
+                scaleInverse.z = 1 / scaleInverse.z;
+
                 point = RotatePointAroundPivot(point, bones[idx].transform.position, rotation.eulerAngles);
                 point += translation;
+                //scale around collider center
+                point -= coll.gameObject.transform.position;
+                point = Vector3.Scale(point, scaleInverse);
+                point += coll.gameObject.transform.position;
             }
 
             planeUvs[i] = Vector3.Scale(point, scaleUV) - offsetUV;

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.12543024, g: 0.13142732, b: 0.117296375, a: 1}
+  m_IndirectSpecularColor: {r: 0.18339863, g: 0.2272855, b: 0.29608706, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -241,14 +241,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 705507993}
-  m_LocalRotation: {x: 0.75191635, y: -0.51000285, z: 0.34453562, w: -0.2362502}
-  m_LocalPosition: {x: -0.335, y: 3, z: -0.565}
+  m_LocalRotation: {x: -0.13324058, y: -0.95590866, z: 0.22769718, w: 0.12899427}
+  m_LocalPosition: {x: -1.34, y: 0, z: -2.115}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: -0.221, y: -229.385, z: -111.603}
+  m_LocalEulerAnglesHint: {x: 23.637, y: -160.401, z: 20.01}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -785,7 +785,7 @@ MonoBehaviour:
     to rotate plane.
 
     MOUSE CLICK to rotate body parts (ESC to show pointer).
-    R to reset positions.'
+    R to reset positions. B to toggle breath animation.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1293,6 +1293,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 343993079283409973}
+  - component: {fileID: 2763678275035895767}
   - component: {fileID: 2763678275035895766}
   m_Layer: 0
   m_Name: metarig
@@ -1301,26 +1302,35 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!95 &2763678275035895766
-Animator:
-  serializedVersion: 4
+--- !u!114 &2763678275035895766
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2763678275035895765}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e2173b1d1cf03846b4397d8ff69fa31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mri: {fileID: 1163461645}
+--- !u!111 &2763678275035895767
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2763678275035895765}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 5a729644b220c6949a4a311493f0a4fb, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 5a729644b220c6949a4a311493f0a4fb, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &2824596748710366300
 GameObject:
   m_ObjectHideFlags: 0
@@ -2074,7 +2084,7 @@ Transform:
   m_GameObject: {fileID: 6318407930268998866}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -0}
-  m_LocalScale: {x: 0.6, y: 0.6, z: 1}
+  m_LocalScale: {x: 0.4, y: 0.4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 415347632}
