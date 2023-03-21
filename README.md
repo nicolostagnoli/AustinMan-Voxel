@@ -1,6 +1,7 @@
 # AustinMan-Voxel
 
 Abstract
+
 The aim of this work is to develop a 3d representation of the human body so that it
 contains also “internal” texture sampled from the AustinMan dataset. AustinMan is a
 voxel model of the human body that is being developed for simulations. It contains
