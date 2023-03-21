@@ -24,4 +24,4 @@ essential to capture the deformation of single body parts, like hands, arms, fee
 that is one main point of this MRI simulation.
 
 Key-words: Voxelization, UV mapping, Three-Dimensional UVW deformation, Mesh
-generation, Mesh rigging,
+generation, Mesh rigging.
