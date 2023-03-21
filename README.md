@@ -11,6 +11,7 @@ build new images from the intersection of a plane with the body. The power of th
 concept lies in the fact that is possible to build slices of the body in any orientation, so
 not just only horizontal. The body can be also set in different poses and the position of
 the internal points is recalculated.
+
 Regarding voxelizations, two algorithms are presented. The first, very simple, is a
 simple voxelization (Minecraft style), that builds meshes triangulating cubes. It is used
 to build simple models for the human skin and for every internal layer of the human
