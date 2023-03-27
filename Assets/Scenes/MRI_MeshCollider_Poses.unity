@@ -460,7 +460,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1920, y: 100}
+  m_SizeDelta: {x: 1920, y: 150}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1081347593
 MonoBehaviour:
@@ -782,10 +782,11 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: 'WASD to move camera; ARROW KEYS and RIGTH CTRL, SHIFT to move plane; Q,E,R,F
-    to rotate plane.
+    to rotate plane. J, K to shrink and enlarge cutting plane.
 
-    MOUSE CLICK to rotate body parts (ESC to show pointer).
-    R to reset positions. B to toggle breath animation.'
+    MOUSE CLICK to
+    rotate body parts (ESC to show pointer). R to reset positions. B to toggle breath
+    animation.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1965,6 +1966,7 @@ GameObject:
   - component: {fileID: 7731402586654149069}
   - component: {fileID: 5525779275696733447}
   - component: {fileID: 7731402586654149070}
+  - component: {fileID: 7731402586654149071}
   m_Layer: 0
   m_Name: MRI Plane
   m_TagString: Untagged
@@ -2084,7 +2086,7 @@ Transform:
   m_GameObject: {fileID: 6318407930268998866}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -0}
-  m_LocalScale: {x: 0.4, y: 0.4, z: 1}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 415347632}
@@ -2322,8 +2324,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e32edb0615f072444a91e853a326d25e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movement_speed: 0.25
-  rotation_speed: 10
+  movement_speed: 0.4
+  rotation_speed: 20
+--- !u!114 &7731402586654149071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6318407930268998866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80697e41ac57d27418ddcede35e55eb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7832535492342209015
 GameObject:
   m_ObjectHideFlags: 0

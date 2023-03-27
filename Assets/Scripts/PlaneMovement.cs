@@ -6,6 +6,7 @@ public class PlaneMovement : MonoBehaviour
 {
     public float movement_speed;
     public float rotation_speed;
+    float scale_speed = 0.1f;
 
     // Start is called before the first frame update
     void Start()
@@ -34,6 +35,19 @@ public class PlaneMovement : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.RightControl)) {
             transform.localPosition = new Vector3(position.x + movement_speed * Time.deltaTime, position.y, position.z);
+        }
+
+        if (Input.GetKey(KeyCode.J)) {
+            Vector3 scale = transform.localScale;
+            scale.x -= Time.deltaTime * scale_speed;
+            scale.y -= Time.deltaTime * scale_speed;
+            transform.localScale = scale;
+        }
+        if (Input.GetKey(KeyCode.K)) {
+            Vector3 scale = transform.localScale;
+            scale.x += Time.deltaTime * scale_speed;
+            scale.y += Time.deltaTime * scale_speed;
+            transform.localScale = scale;
         }
 
         Vector3 angles = transform.localRotation.eulerAngles;

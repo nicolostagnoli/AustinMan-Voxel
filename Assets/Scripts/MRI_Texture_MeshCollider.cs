@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System.IO;
+using System;
 
 public class MRI_Texture_MeshCollider : MonoBehaviour
 {
@@ -29,6 +30,30 @@ public class MRI_Texture_MeshCollider : MonoBehaviour
     public int width = 342;
     public int height = 1876/2;
     public int depth = 342;
+
+    static int[] layers = new int[] {0, 2, 4, 6, 9, 10, 11, 12, 15, 16, 20, 24, 25, 27, 28, 32, 44,
+        52, 61, 62, 72, 76, 80, 84, 88, 92, 96, 99, 100, 108, 110, 111, 112, 116,
+        124, 128, 132, 136, 144, 148, 152, 156, 160, 164, 165, 168, 172, 179, 180,
+        181, 184, 188, 192, 196, 200, 201, 204, 208, 214, 215, 216, 218, 219, 220
+    };
+
+    static string[] layerNames = new string[] { "ExternalAir","InternalAir","Colon","ColonInternal","Pons","Medulla","Midbrain","BrainGreyMatter","Urethra","Bladder",
+        "Aorta","Duodenum","DuodenumInternal","VentricleAtrium","BloodVessel","BrainWhiteMatter","GallBladder","Cerebellum",
+        "HeartMuscle","HeartDCT","Cornea","Prostate","CerebroSpinalFluid","BoneCortical","Kidney","BoneMarrow","EyeSclera",
+        "DuctusDeferens","Testis","Liver","PeritonealCavity","Meniscus","Cartilage","Lens","Dura","LungInflated","Nail","Fat",
+        "Esophagus","Pancreas","Gland","Tongue","Thymus","SmallIntestine","SmallIntestineInternal","Lymph","Tooth","ErectileTissue",
+        "Muscle","Diaphragm","SpinalCord","Spleen","Nerve","VitreousHumor","Stomach","StomachInternal","SkinDry","MucousMembrane",
+        "Fascia","ITBand","Trachea","DarkTendon","DCT","Tendon"
+    };
+
+    static Color32[] layerColors = new Color32[] { new Color32(0, 0, 0, 1), new Color32(0, 231, 255, 1), new Color32(255, 0, 253, 1), new Color32(255, 0, 253, 1), new Color32(100, 0, 100, 1), new Color32(100, 0, 100, 1),new Color32(175, 158, 182, 1),new Color32(175, 158, 182, 1),new Color32(210, 255, 0, 1), new Color32(100, 0, 100, 1),
+        new Color32(221, 79, 116, 1),new Color32(100, 0, 100, 1),new Color32(100, 0, 100, 1),new Color32(221, 79, 116, 1),new Color32(255, 0, 0, 1),new Color32(225, 190, 208, 1),new Color32(100, 0, 100, 1),new Color32(92, 32, 62, 1),
+        new Color32(182, 27, 67, 1),new Color32(182, 27, 67, 1),new Color32(100, 0, 100, 1),new Color32(210, 255, 0, 1),new Color32(175, 158, 182, 1),new Color32(140, 140, 89, 1), new Color32(175, 158, 182, 1),new Color32(140, 109, 89, 1),new Color32(175, 158, 182, 1),
+        new Color32(175, 158, 182, 1), new Color32(0, 191, 66, 1),new Color32(177, 94, 0, 1),new Color32(100, 0, 100, 1),new Color32(174, 174, 110, 1),new Color32(174, 174, 110, 1),new Color32(100, 0, 100, 1),new Color32(100, 0, 100, 1),new Color32(171, 71, 184, 1),new Color32(174, 174, 110, 1),new Color32(221, 215, 157, 1),
+        new Color32(126, 0, 213, 1), new Color32(0, 153, 56, 1),new Color32(94, 0, 143, 1),new Color32(94, 0, 143, 1),new Color32(100, 0, 100, 1),new Color32(255, 0, 253, 1), new Color32(255, 0, 253, 1),new Color32(100, 0, 100, 1),new Color32(174, 174, 110, 1),new Color32(100, 0, 100, 1),
+        new Color32(140, 0, 0, 1), new Color32(126, 0, 213, 1),new Color32(100, 0, 100, 1),new Color32(100, 0, 100, 1),new Color32(162, 255, 0, 1),new Color32(100, 0, 100, 1), new Color32(143, 0, 76, 1),new Color32(143, 0, 76, 1),new Color32(255, 227, 139, 1), new Color32(100, 0, 100, 1),
+        new Color32(140, 0, 0, 1),new Color32(100, 0, 100, 1),  new Color32(179, 136, 0, 1),new Color32(100, 0, 100, 1),new Color32(100, 0, 100, 1),new Color32(100, 0, 100, 1)
+    };
 
     // Start is called before the first frame update
     void Start() {
@@ -65,7 +90,7 @@ public class MRI_Texture_MeshCollider : MonoBehaviour
                 for (int x = 0; x < tex3d.width; x++) {
                     int tempy = (y - 1) / 2;
                     int idx = x + tex3d.width * tempy + tex3d.width * tex3d.height * z;
-                    Color32 temp = (Color32)slice.GetPixel(x, z);
+                    Color32 temp = layerColors[Array.IndexOf(layers, (int)(slice.GetPixel(x, z).grayscale * 255))];
                     colors[idx] = temp;
                 }
             }
@@ -123,10 +148,12 @@ public class MRI_Texture_MeshCollider : MonoBehaviour
 
                 point = RotatePointAroundPivot(point, bones[idx].transform.position, rotation.eulerAngles);
                 point += translation;
+
+                /*
                 //scale around collider center
                 point -= coll.gameObject.transform.position;
                 point = Vector3.Scale(point, scaleInverse);
-                point += coll.gameObject.transform.position;
+                point += coll.gameObject.transform.position; */
             }
 
             planeUvs[i] = Vector3.Scale(point, scaleUV) - offsetUV;

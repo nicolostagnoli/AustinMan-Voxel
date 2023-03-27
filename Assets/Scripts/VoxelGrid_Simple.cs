@@ -10,12 +10,7 @@ public class VoxelGrid_Simple : MonoBehaviour {
     float[,,] Voxels;
     Color[,,] Colors;
 
-    private int sliceDimX = 94;
-    private int sliceDimZ = 171;
-
     private void Awake() {
-        Dimensions.x = sliceDimX;
-        Dimensions.z = sliceDimZ;
         Voxels = new float[Dimensions.x, Dimensions.y, Dimensions.z];
         Colors = new Color[Dimensions.x, Dimensions.y, Dimensions.z];
         LoadVoxels();
@@ -33,15 +28,15 @@ public class VoxelGrid_Simple : MonoBehaviour {
     }
 
     private void LoadVoxels() {
-        for (int y = 1; y < Dimensions.y; y+=4) {
-            string num = y.ToString("D4");
-            Texture2D slice = LoadPNG(Application.dataPath + "/Dataset/AustinMan-4x4x4/AustinMan-v2_6-4x4x4_pngs/" + num + ".png");
+        for (int y = 0; y < Dimensions.y; y++) {
+            string num = ((y*2)+1).ToString("D4");
+            Texture2D slice = LoadPNG(Application.dataPath + "/Dataset/AustinMan-2x2x2/AustinMan-v2_6-2x2x2_pngs/" + num + ".png");
             for (int x = 0; x < Dimensions.x; x++) {
                 for (int z = 0; z < Dimensions.z; z++) {
                     Color pixelColor = slice.GetPixel(x, z);
                     float pixelVal = pixelColor.grayscale;
-                    Voxels[x, (y - 1) / 4, z] = pixelVal;
-                    Colors[x, (y - 1) / 4, z] = pixelColor;
+                    Voxels[x, y, z] = pixelVal;
+                    Colors[x, y, z] = pixelColor;
                 }
             }
         }
