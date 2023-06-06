@@ -118,7 +118,8 @@ public class MRI_Texture_MeshCollider : MonoBehaviour
         List<Vector3> planeVerts = new List<Vector3>(planeMf.mesh.vertices);
 
         for (int i = 0; i < planeUvs.Count; i++) {
-            Vector3 point = plane.transform.TransformPoint(planeVerts[i]);  //each plane point in world coordinates
+            //each plane point in world coordinates
+            Vector3 point = plane.transform.TransformPoint(planeVerts[i]);
 
             MeshCollider coll = null;
             foreach(MeshCollider mc in colliders) {

@@ -785,7 +785,7 @@ MonoBehaviour:
     to rotate plane. J, K to shrink and enlarge cutting plane.
 
     MOUSE CLICK to
-    rotate body parts (ESC to show pointer). R to reset positions. B to toggle breath
+    rotate body parts (ESC to show pointer). X to reset positions. B to toggle breath
     animation.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
